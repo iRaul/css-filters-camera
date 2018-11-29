@@ -15,7 +15,7 @@ body {
   display: flex;
   justify-content: center;
   background: #FFF;
-  padding-top: 60px;
+  padding-top: 70px;
 }
 
 canvas { display: none; }
