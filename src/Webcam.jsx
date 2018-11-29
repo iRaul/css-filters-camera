@@ -12,6 +12,7 @@ import Select from 'react-select';
 
 // Image Icon
 import imgIcn from './image.svg';
+import downloadIcn from './download.svg';
 
 
 const ImageWrapper = styled.div`
@@ -27,6 +28,13 @@ const ImageWrapper = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+
+  &.hasImage:hover {
+    a {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
 `;
 
 const Image = styled.img`
@@ -43,14 +51,13 @@ const VideoWrapper = styled.div`
 
 const DownloadBtn = styled.a`
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  top: 0; left: 0;
+  height: 100%; width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.6);
+  visibility: hidden;
   opacity: 0;
   cursor: pointer;
 `;
@@ -70,6 +77,7 @@ class Webcam extends Component {
 
     this.state = {
       selectedOption: null,
+      snapIsPressed: false
     }
 
     this.handleTakePic = this.handleTakePic.bind(this);
@@ -129,6 +137,7 @@ class Webcam extends Component {
   handleTakePic(event) {
     event.preventDefault();
     this.takePic();
+    this.setState({ snapIsPressed: true })
   }
 
   render() {
@@ -156,9 +165,11 @@ class Webcam extends Component {
           placeholder='Select CSS Filter'
         />
 
-        <ImageWrapper>
+        <ImageWrapper className={ this.state.snapIsPressed ? 'hasImage' : false }>
           <Image alt=''/>
-          <DownloadBtn>Download</DownloadBtn>
+          <DownloadBtn>
+            <img src={ downloadIcn } alt='Download Icon'/>
+          </DownloadBtn>
         </ImageWrapper>
       </div>
     )
