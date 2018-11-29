@@ -64,11 +64,17 @@ const DownloadBtn = styled.a`
 
 const cssFilters = [
   { value: 'none', label: 'Normal' },
-  { value: 'grayscale(100%)', label: 'Grayscale' },
-  { value: 'sepia(100%)', label: 'Sepia' },
-  { value: 'invert(100%)', label: 'Invert' },
+  { value: 'grayscale(1)', label: 'Grayscale' },
+  { value: 'sepia(1)', label: 'Sepia' },
+  { value: 'saturate(4)', label: 'Saturation' },
+  { value: 'invert(.8)', label: 'Invert' },
   { value: 'hue-rotate(90deg)', label: 'Hue' },
-  { value: 'contrast(200%)', label: 'Contrast' }
+  { value: 'contrast(4)', label: 'Contrast' },
+  { value: 'brightness(.5)', label: 'Brightness' },
+  { value: 'blur(5px)', label: 'Blur' },
+  { value: 'sepia(1) hue-rotate(200deg)', label: 'Tint' },
+  { value: 'grayscale(1) brightness(0.45) contrast(1.05)', label: 'Inkwell' },
+  { value: 'contrast(1.4) saturate(1.8) sepia(.6)', label: 'Multiple Filters' }
 ]
 
 class Webcam extends Component {
