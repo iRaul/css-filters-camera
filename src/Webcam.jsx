@@ -121,6 +121,7 @@ class Webcam extends Component {
       canvas.width = width;
       canvas.height = height;
 
+      context.filter = this.state.selectedOption;
       context.drawImage(video, 0, 0, width, height);
 
       const imgURL = canvas.toDataURL('image/png');
@@ -131,7 +132,6 @@ class Webcam extends Component {
 
       link.setAttribute('download', 'filtered-image');
       img.setAttribute('src', imgURL);
-      img.style.filter = this.state.selectedOption;
     }
   }
 
