@@ -165,10 +165,17 @@ class Webcam extends Component {
         <SnapButton handleTakePic={ this.handleTakePic } />
 
         <Select
-          value={ selectedOption }
           onChange={ this.handleFilterChange }
           options={ cssFilters }
           placeholder='Select CSS Filter'
+          theme={(theme) => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              primary25: 'rgba(34, 34, 34, 0.3)',
+              primary: '#222',
+            },
+          })}
         />
 
         <ImageWrapper className={ this.state.snapIsPressed ? 'hasImage' : false }>
