@@ -10,14 +10,17 @@ import SnapButton from './SnapButton';
 // React Select
 import Select from 'react-select';
 
-// Image Icon
+// Icons
 import imgIcn from './image.svg';
 import downloadIcn from './download.svg';
 
+const Title = styled.h1`
+  color: #222;
+`;
 
 const ImageWrapper = styled.div`
   position: absolute;
-  top: -55px;
+  top: 0;
   right: -55px;
   width: 150px;
   height: 112.5px;
@@ -85,21 +88,14 @@ class Webcam extends Component {
       selectedOption: null,
       snapIsPressed: false
     }
-
-    this.handleTakePic = this.handleTakePic.bind(this);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.takePic = this.takePic.bind(this);
   }
 
   componentDidMount() {
-    const video = document.querySelector('video');
+    const video = this.refs.video;
 
     navigator.mediaDevices.getUserMedia({
-      video: {
-        width: 400,
-        height: 300
-      },
-      audio: false,
+      video: true,
+      audio: false
     })
     .then((stream) => {
       video.srcObject = stream;
@@ -110,37 +106,32 @@ class Webcam extends Component {
     });
   }
 
-  takePic() {
-    const width = 400;
-    const height = 300;
-    const canvas = document.querySelector('canvas');
-    const video = document.querySelector('video');
-    const context = canvas.getContext('2d');
+  takePic = () => {
+    const canvas = this.refs.canvas;
+    const video = this.refs.video;
+    const ctx = canvas.getContext('2d');
+    const { width, height } = this.refs.video;
 
-    if (width && height) {
-      canvas.width = width;
-      canvas.height = height;
+    ctx.filter = this.state.selectedOption;
+    ctx.drawImage(video, 0, 0, width, height);
 
-      context.filter = this.state.selectedOption;
-      context.drawImage(video, 0, 0, width, height);
+    const imageURL = canvas.toDataURL('image/png');
+    const image = this.refs.image;
+    const downloadBtn = this.refs.downloadBtn;
 
-      const imgURL = canvas.toDataURL('image/png');
-      const img = document.querySelector('img');
-      const link = document.querySelector('a');
+    downloadBtn.href = imageURL;
 
-      link.href = imgURL;
+    downloadBtn.setAttribute('download', 'filtered-image');
+    image.setAttribute('src', imageURL);
 
-      link.setAttribute('download', 'filtered-image');
-      img.setAttribute('src', imgURL);
-    }
   }
 
-  handleFilterChange(e) {
+  handleFilterChange = (e) => {
     this.setState({ selectedOption: e.value });
     console.log(e.value);
   }
 
-  handleTakePic(event) {
+  handleTakePic = (event) => {
     event.preventDefault();
     this.takePic();
     this.setState({ snapIsPressed: true })
@@ -151,8 +142,13 @@ class Webcam extends Component {
 
     return (
       <div style={{ position: 'relative' }}>
+        <Title>CSS Filters Camera</Title>
+
         <VideoWrapper>
           <video
+            ref='video'
+            width={ 400 }
+            height={ 300 }
             style={{
               display: 'block',
               filter: `${ selectedOption }`
@@ -160,7 +156,10 @@ class Webcam extends Component {
           </video>
         </VideoWrapper>
 
-        <canvas></canvas>
+        <canvas
+          ref='canvas'
+          width={ 400 }
+          height={ 300 }></canvas>
 
         <SnapButton handleTakePic={ this.handleTakePic } />
 
@@ -168,6 +167,7 @@ class Webcam extends Component {
           onChange={ this.handleFilterChange }
           options={ cssFilters }
           placeholder='Select CSS Filter'
+          maxMenuHeight='100'
           theme={(theme) => ({
             ...theme,
             colors: {
@@ -179,9 +179,13 @@ class Webcam extends Component {
         />
 
         <ImageWrapper className={ this.state.snapIsPressed ? 'hasImage' : false }>
-          <Image alt=''/>
-          <DownloadBtn>
-            <img src={ downloadIcn } alt='Download Icon'/>
+          <Image
+            ref='image'
+            alt=''/>
+          <DownloadBtn ref='downloadBtn'>
+            <img
+              src={ downloadIcn }
+              alt='Download Icon'/>
           </DownloadBtn>
         </ImageWrapper>
       </div>
