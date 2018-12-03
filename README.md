@@ -14,7 +14,7 @@ yarn
 ### Start 🏃
 
 ```
-yarn start:development
+yarn start
 ```
 
 ### Build 😷
