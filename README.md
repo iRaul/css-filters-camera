@@ -5,19 +5,20 @@
 - [Styled Components](https://www.styled-components.com/)
 - [Feather Icons](https://feathericons.com/)
 
-### Available Scripts
+### Install ⚙️
 
-In the project directory, you can run:
+```
+yarn
+```
 
-#### `npm start`
+### Start 🏃
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+yarn start:development
+```
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Build 😷
 
-#### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+yarn build
+```
