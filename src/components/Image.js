@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import downloadIcon from '../assets/icons/download.svg';
 import imageIcon from '../assets/icons/image.svg';
 
 const ImageWrapper = styled.div`
@@ -19,12 +18,12 @@ const ImageWrapper = styled.div`
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
   z-index: 1;
 
-  img {
+  .filtered-image {
     width: 100%;
     display: block;
   }
 
-  button {
+  a {
     position: absolute;
     top: 0;
     left: 0;
@@ -47,13 +46,8 @@ const ImageWrapper = styled.div`
   }
 `;
 
-const Image = () => (
-  <ImageWrapper>
-    <img alt="" />
-    <button type="button">
-      <img src={downloadIcon} alt="Download Icon" />
-    </button>
-  </ImageWrapper>
+const Image = ({ children, className }) => (
+  <ImageWrapper className={className}>{children}</ImageWrapper>
 );
 
 export default Image;

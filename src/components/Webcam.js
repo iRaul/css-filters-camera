@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const Video = styled.div`
@@ -13,38 +13,6 @@ const Video = styled.div`
   }
 `;
 
-const Webcam = ({ value }) => {
-  const videoEl = useRef(null);
-
-  useEffect(() => {
-    if (!videoEl) {
-      return;
-    }
-
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
-      .then(stream => {
-        const video = videoEl.current;
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch(error => {
-        console.log(`Error: ${error}`);
-      });
-  }, [videoEl]);
-
-  return (
-    <Video>
-      <video
-        muted
-        style={{ filter: `${value}` }}
-        width={520}
-        height={390}
-        ref={videoEl}
-      />
-      <canvas />
-    </Video>
-  );
-};
+const Webcam = ({ children }) => <Video>{children}</Video>;
 
 export default Webcam;

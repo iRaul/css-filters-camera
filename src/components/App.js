@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 
 import Container from './Container';
@@ -6,7 +6,12 @@ import Webcam from './Webcam';
 import Image from './Image';
 import Capture from './Capture';
 
+import downloadIcon from '../assets/icons/download.svg';
+
 const App = () => {
+  const canvasElm = useRef(null);
+  const videoElm = useRef(null);
+
   const filters = [
     { value: 'none', label: 'Normal' },
     { value: 'grayscale(1)', label: 'Grayscale' },
@@ -25,25 +30,69 @@ const App = () => {
     },
   ];
 
-  const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState('');
+  const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    if (!videoElm) {
+      return;
+    }
+
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: false })
+      .then(stream => {
+        const video = videoElm.current;
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(error => {
+        console.log(`Error: ${error}`);
+      });
+  }, [videoElm]);
 
   const handleFilter = e => {
     setFilter({
       value: e.value,
     });
-
-    console.log(filter);
   };
 
   const handleCapture = () => {
-    console.log('CAPTURE!');
+    const canvas = canvasElm.current;
+    const video = videoElm.current;
+    const ctx = canvas.getContext('2d');
+    const { width, height } = video;
+
+    ctx.filter = filter.value;
+    ctx.drawImage(video, 0, 0, width, height);
+
+    console.log(ctx);
+
+    setImage(canvas.toDataURL('image/png'));
   };
 
   return (
     <Container>
-      <Image />
+      <Image className={image ? 'hasImage' : ''}>
+        <img
+          className="filtered-image"
+          src={image}
+          alt={image ? 'Filtered Pic' : ''}
+        />
+        <a href={image} download="filtered-image">
+          <img src={downloadIcon} alt="Download Icon" />
+        </a>
+      </Image>
 
-      <Webcam {...filter} />
+      <Webcam>
+        <video
+          muted
+          style={{ filter: `${filter.value}` }}
+          width={520}
+          height={390}
+          ref={videoElm}
+        />
+        <canvas width={520} height={390} ref={canvasElm} />
+      </Webcam>
 
       <Capture onClick={handleCapture} />
 
