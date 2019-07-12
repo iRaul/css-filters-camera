@@ -2,7 +2,7 @@
 > This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ### Demo ▶️
-![CSS Filter Camera Demo](/src/assets/demo.gif)
+![CSS Filter Camera Demo](/src/assets/demo-2.gif)
 
 ### Install ⚙️
 
