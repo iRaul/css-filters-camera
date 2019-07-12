@@ -9,9 +9,6 @@ import Capture from './Capture';
 import downloadIcon from '../assets/icons/download.svg';
 
 const App = () => {
-  const canvasElm = useRef(null);
-  const videoElm = useRef(null);
-
   const filters = [
     { value: 'none', label: 'Normal' },
     { value: 'grayscale(1)', label: 'Grayscale' },
@@ -33,22 +30,8 @@ const App = () => {
   const [filter, setFilter] = useState('');
   const [image, setImage] = useState(null);
 
-  useEffect(() => {
-    if (!videoElm) {
-      return;
-    }
-
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
-      .then(stream => {
-        const video = videoElm.current;
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch(error => {
-        console.log(`Error: ${error}`);
-      });
-  }, [videoElm]);
+  const canvasElm = useRef(null);
+  const videoElm = useRef(null);
 
   const handleFilter = e => {
     setFilter({
@@ -69,6 +52,23 @@ const App = () => {
 
     setImage(canvas.toDataURL('image/png'));
   };
+
+  useEffect(() => {
+    if (!videoElm) {
+      return;
+    }
+
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: false })
+      .then(stream => {
+        const video = videoElm.current;
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(error => {
+        console.log(`Error: ${error}`);
+      });
+  }, [videoElm]);
 
   return (
     <Container>
