@@ -1,11 +1,8 @@
-// React
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// Components
-import App from './App';
+import App from './components/App';
 
-// CSS
 import 'normalize.css';
 import './index.css';
 
