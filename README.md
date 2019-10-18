@@ -1,9 +1,6 @@
 # React CSS Filters Camera 📷
 > This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Demo ▶️
-![CSS Filter Camera Demo](/src/assets/demo-3.gif)
-
 ### Install ⚙️
 
 ```
